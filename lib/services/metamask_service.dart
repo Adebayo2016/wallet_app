@@ -68,8 +68,9 @@ class MetaMaskServiceImp implements MetaMaskService {
       return Right(resp);
     } catch (e) {
       Left(ConnectivityFailure(e.toString()));
+      print('error in your metamask code is sha  $e'.toString());
     }
-    return Left(ConnectivityFailure("error".toString()));
+    return Left(ConnectivityFailure("error in your metamask code is ".toString()));
   }
 
   Future<Web3App> createWeb3Instance() async {

@@ -41,11 +41,12 @@ dependencies:
   equatable: ^2.0.5
   dartz: ^0.10.1
   http: ^1.1.0
-  webview_flutter: ^4.2.2
-  walletconnect_flutter_v2: ^2.1.14
+  webview_flutter: ^4.4.1
+  walletconnect_flutter_v2: ^2.1.11
   permission_handler: ^10.4.3
-  web3dart: ^2.7.2
+  web3dart: ^2.7.0
   convert: ^3.1.1
+  change_app_package_name: ^1.1.0
   # walletconnect_modal_flutter: ^2.1.13
 
 

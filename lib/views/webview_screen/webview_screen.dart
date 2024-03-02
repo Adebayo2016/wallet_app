@@ -18,12 +18,11 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final WebViewController controller =
-        WebViewController.fromPlatformCreationParams(
-            const PlatformWebViewControllerCreationParams());
-    controller
+    var url="https://www.google.com";
+    final  controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse('https://google.com'));
+    ..loadRequest(Uri.parse(url));
+
     return Scaffold(
       body: SizedBox(
         child: WebViewWidget(
