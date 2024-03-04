@@ -47,6 +47,7 @@ dependencies:
   web3dart: ^2.7.0
   convert: ^3.1.1
   change_app_package_name: ^1.1.0
+  get: ^4.6.6
   # walletconnect_modal_flutter: ^2.1.13
 
 
