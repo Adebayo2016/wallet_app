@@ -1,7 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'dart:convert';
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
   final DataController _dataController = Get.put(DataController());
+
 
   // Web3App? _web3app;
   // ignore: unused_field
@@ -40,6 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
   String testAddress = '0xA32Ed59011F366632fb2D03a7A0Cade4cf11E4Ee';
   String? account;
   static String? _url;
+  final WebViewController _controller =
+  WebViewController.fromPlatformCreationParams(
+      const PlatformWebViewControllerCreationParams());
+
 
   String get deepLinkUrl => 'metamask://wc?uri=$_url';
 
@@ -54,6 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _currentIndexNotifier = ValueNotifier(false);
+
+   // _dataController.initiateWebviewTransaction();
 
     // _initWalletConnect();
 
@@ -142,17 +151,35 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String webviewAmount="0";
+    String urltest="https://bpetest.netlify.app/";
+
     final WebViewController controller =
-        WebViewController.fromPlatformCreationParams(
-            const PlatformWebViewControllerCreationParams());
+    WebViewController.fromPlatformCreationParams(
+        const PlatformWebViewControllerCreationParams());
     controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..addJavaScriptChannel("Bpe",
-          onMessageReceived: (JavaScriptMessage message) {
-        print('Message from WebView: ${message.message}');
-      })
+      ..addJavaScriptChannel("Flutter",
+        onMessageReceived: (JavaScriptMessage message) {
+          webviewAmount=message.message;
+          _dataController.setAmountFromwallet(webviewAmount);
+          // _dataController.initiateWebviewTransaction();
+          controller.runJavaScript('handleReceiveMessage("{data: $webviewAmount})');
+
+
+          // setState(() {
+          //   webviewAmount=message.message;
+          // });
+          print('Message from WebView: ${message.message}');
+        },
+
+
+      )..runJavaScript('handleReceiveMessage("how far")')
       ..loadRequest(
-          Uri.parse('https://bpe-cardiscardis.vercel.app?account=$account'));
+          Uri.parse(urltest
+            // 'https://bpe-cardiscardis.vercel.app?account=$account'
+          ));
+
     return Scaffold(
         // key: _messangerKey,
         body: ValueListenableBuilder(
@@ -169,63 +196,75 @@ class _HomeScreenState extends State<HomeScreen> {
                       _currentIndexNotifier.value =
                           !_currentIndexNotifier.value;
                       if (_currentIndexNotifier.value) {
-                        MetaMaskServiceImp().connectWithMetamaskWallet(
-                          onSessionUpdate: (session) {
-                            setState(() {
-                              print('session ${session.data()}-+++++++++++++=');
-                            });
-                          },
-                          onDisplayUri: (uri) {
-                            setState(() {
-                              _url = uri;
-                            });
-                            launchUrlString(uri,
-                                mode: LaunchMode.externalApplication);
-                          },
-                        ).then((result) {
-                          result.fold((failure) {
-                            print('Failed to connect: $failure');
-                          }, (connectResponse) async {
-                            print('Updated session+++++++++ $connectResponse');
-                            _sessionData = await connectResponse.session.future;
-                            String walletAccount = NamespaceUtils.getAccount(
-                              _sessionData!
-                                  .namespaces.values.first.accounts.first,
-                            );
-                            print('account ++++++++--------$walletAccount');
-                            web3client = Web3Client(
-                                'https://polygon-mumbai.infura.io/v3/d0f4119a707544e7b1fcbc93c9bf659e',
-                                Client());
-                            EthereumAddress address =
-                                EthereumAddress.fromHex(walletAccount);
-                            EtherAmount etherBalance =
-                                await web3client.getBalance(address);
 
-                            token = web3client
-                                .getTransactionCount(address)
-                                .toString();
-
-                            print(
-                                '+++===Matic balance at address: ${etherBalance.getValueInUnit(EtherUnit.ether)}');
-                            // ignore: use_build_context_synchronously
-                            // var response = await transferToken(context);
-                            EthereumAddress toAddress =
-                                EthereumAddress.fromHex(testAddress);
-                            var response =
-                                await query('balanceOf', [toAddress]);
-                            print('++++++++CELT Balance: $response');
-                            setState(() async  {
-                              maticAmount = etherBalance
-                                  .getValueInUnit(EtherUnit.ether)
-                                  .toString();
-                              celtAmount = response[0].toString();
-                              account = walletAccount;
-                              _dataController.setAmountFromwallet(celtAmount);
-                              await _dataController.initiateWebviewTransaction();
-
-                            });
-                          });
-                        });
+                        _dataController.connectToMetaMask();
+                        // MetaMaskServiceImp().connectWithMetamaskWallet(
+                        //   onSessionUpdate: (session) async  {
+                        //
+                        //     setState(() {
+                        //       print('session  data is ${session.data()}-+++++++++++++=');
+                        //     });
+                        //   },
+                        //   onDisplayUri: (uri) {
+                        //     setState(() {
+                        //       _url = uri;
+                        //       print("my Uri is $uri");
+                        //     });
+                        //     launchUrlString(uri,
+                        //         mode: LaunchMode.externalApplication);
+                        //   },
+                        // ).then((result) {
+                        //   result.fold((failure) {
+                        //     print('Failed to connect: $failure');
+                        //   }, (connectResponse) async {
+                        //     print('Updated session+++++++++ $connectResponse');
+                        //
+                        //
+                        //     print("connect response is " + connectResponse.session.toString());
+                        //
+                        //
+                        //     _sessionData = (await connectResponse.session) as SessionData?;
+                        //     var  walletAccount = await NamespaceUtils.getAccount(
+                        //
+                        //       _sessionData!
+                        //           .namespaces.values.first.accounts.first,
+                        //     );
+                        //     print('account ++++++++--------$walletAccount');
+                        //     web3client = Web3Client(
+                        //         'https://polygon-mumbai.infura.io/v3/d0f4119a707544e7b1fcbc93c9bf659e',
+                        //         Client());
+                        //     EthereumAddress address =
+                        //         EthereumAddress.fromHex(walletAccount);
+                        //     EtherAmount etherBalance =
+                        //         await web3client.getBalance(address);
+                        //
+                        //     token = web3client
+                        //         .getTransactionCount(address)
+                        //         .toString();
+                        //     print("my token is ${token}");
+                        //
+                        //     print(
+                        //         '+++===Matic balance at address: ${etherBalance.getValueInUnit(EtherUnit.ether)}');
+                        //     // ignore: use_build_context_synchronously
+                        //     // var response = await transferToken(context);
+                        //     EthereumAddress toAddress =
+                        //         EthereumAddress.fromHex(testAddress);
+                        //     var response =
+                        //         await query('balanceOf', [toAddress]);
+                        //     print('++++++++CELT Balance: $response');
+                        //     setState(() async  {
+                        //       maticAmount = etherBalance
+                        //           .getValueInUnit(EtherUnit.ether)
+                        //           .toString();
+                        //       celtAmount = response[0].toString();
+                        //       account = walletAccount;
+                        //       print("celtAmount is $celtAmount");
+                        //       _dataController.setAmountFromwallet(celtAmount);
+                        //       await _dataController.initiateWebviewTransaction();
+                        //
+                        //     });
+                        //   });
+                        // });
                       } else {} // disconnect},
                     },
                     child: Container(
@@ -305,15 +344,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
+                GetBuilder<DataController>(
+                  builder: (cont) {
+                    return Text("webview message is ${cont.AmountFromwallet}");
+                  }
+                )
               ]),
               Expanded(
                 child: Container(
                   width: double.infinity,
                   color: Colors.grey[200],
                   padding: const EdgeInsets.all(20),
-                  child: WebViewWidget(
+                  child:
+                  WebViewWidget(
                     controller: _currentIndexNotifier.value == true
-                        ? controller
+                        ? _dataController.controller
                         : WebViewController.fromPlatformCreationParams(
                             const PlatformWebViewControllerCreationParams(),
                           ),
@@ -336,7 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //       setState(() => _logs += '❌ auth error $error\n\n');
 //     });
 //   }).catchError((error) {
-//     setState(() => _logs += '❌ connection error $error\n\n');
+//     setState(() => _logs += '❌ col nnection error $error\n\n');
 //   });
 // }
 }
