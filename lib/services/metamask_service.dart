@@ -34,7 +34,7 @@ class MetaMaskServiceImp implements MetaMaskService {
       ConnectResponse resp = await wcClient.connect(
         requiredNamespaces: {
           'eip155': const RequiredNamespace(
-            // chains: ["eip155:1"], // Ethereum chain
+            // chains: ["eip155:1"],  // Ethereum chain
             chains: ["eip155:80001"],
             methods: [
               'personal_sign',
@@ -46,7 +46,19 @@ class MetaMaskServiceImp implements MetaMaskService {
         },
       );
       Uri? uri = resp.uri;
-      final link = formatNativeUrl(deepLink, uri.toString());
+     // final SessionData session = await resp.session.future;
+      // sessionData = session;
+      // print("Session Data is finally here : $sessionData");
+
+
+      print("Response URI: $uri");
+      final link = (Uri.encodeComponent(uri.toString()));
+
+      final deeplinks = deepLink + link;
+          // deepLink+uri.toString();
+      print("link to connect is : $link");
+      //formatNativeUrl(deepLink, uri.toString());
+
       // print('link+++ $link');
 
       // if (link != null) {
@@ -58,7 +70,7 @@ class MetaMaskServiceImp implements MetaMaskService {
       //   print('account -----++++--------$account');
       // }
 
-      onDisplayUri(link.toString());
+      onDisplayUri(deeplinks.toString());
       // Fetch wallet balance
 
       // final balance = await wcClient.getBalance();
@@ -68,9 +80,8 @@ class MetaMaskServiceImp implements MetaMaskService {
       return Right(resp);
     } catch (e) {
       Left(ConnectivityFailure(e.toString()));
-      print('error in your metamask code is sha  $e'.toString());
     }
-    return Left(ConnectivityFailure("error in your metamask code is ".toString()));
+    return Left(ConnectivityFailure("error".toString()));
   }
 
   Future<Web3App> createWeb3Instance() async {
@@ -85,6 +96,8 @@ class MetaMaskServiceImp implements MetaMaskService {
       ),
     );
 
+
+
     return wcClient;
   }
 
@@ -96,6 +109,7 @@ class MetaMaskServiceImp implements MetaMaskService {
       if (!safeAppUrl.contains('://')) {
         safeAppUrl = deepLink.replaceAll('/', '').replaceAll(':', '');
         safeAppUrl = '$safeAppUrl://';
+        print("Safe url is this " + safeAppUrl);
       }
     }
 

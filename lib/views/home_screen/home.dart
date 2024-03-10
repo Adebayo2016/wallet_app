@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _currentIndexNotifier = ValueNotifier(false);
 
-   // _dataController.initiateWebviewTransaction();
+    // _dataController.initiateWebviewTransaction();
 
     // _initWalletConnect();
 
@@ -181,195 +181,203 @@ class _HomeScreenState extends State<HomeScreen> {
           ));
 
     return Scaffold(
-        // key: _messangerKey,
+      // key: _messangerKey,
         body: ValueListenableBuilder(
-      valueListenable: _currentIndexNotifier,
-      builder: (context, value, child) {
-        return SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Column(
+          valueListenable: _currentIndexNotifier,
+          builder: (context, value, child) {
+            return SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      _currentIndexNotifier.value =
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          _currentIndexNotifier.value =
                           !_currentIndexNotifier.value;
-                      if (_currentIndexNotifier.value) {
+                          if (_currentIndexNotifier.value) {
 
-                        _dataController.connectToMetaMask();
-                        // MetaMaskServiceImp().connectWithMetamaskWallet(
-                        //   onSessionUpdate: (session) async  {
-                        //
-                        //     setState(() {
-                        //       print('session  data is ${session.data()}-+++++++++++++=');
-                        //     });
-                        //   },
-                        //   onDisplayUri: (uri) {
-                        //     setState(() {
-                        //       _url = uri;
-                        //       print("my Uri is $uri");
-                        //     });
-                        //     launchUrlString(uri,
-                        //         mode: LaunchMode.externalApplication);
-                        //   },
-                        // ).then((result) {
-                        //   result.fold((failure) {
-                        //     print('Failed to connect: $failure');
-                        //   }, (connectResponse) async {
-                        //     print('Updated session+++++++++ $connectResponse');
-                        //
-                        //
-                        //     print("connect response is " + connectResponse.session.toString());
-                        //
-                        //
-                        //     _sessionData = (await connectResponse.session) as SessionData?;
-                        //     var  walletAccount = await NamespaceUtils.getAccount(
-                        //
-                        //       _sessionData!
-                        //           .namespaces.values.first.accounts.first,
-                        //     );
-                        //     print('account ++++++++--------$walletAccount');
-                        //     web3client = Web3Client(
-                        //         'https://polygon-mumbai.infura.io/v3/d0f4119a707544e7b1fcbc93c9bf659e',
-                        //         Client());
-                        //     EthereumAddress address =
-                        //         EthereumAddress.fromHex(walletAccount);
-                        //     EtherAmount etherBalance =
-                        //         await web3client.getBalance(address);
-                        //
-                        //     token = web3client
-                        //         .getTransactionCount(address)
-                        //         .toString();
-                        //     print("my token is ${token}");
-                        //
-                        //     print(
-                        //         '+++===Matic balance at address: ${etherBalance.getValueInUnit(EtherUnit.ether)}');
-                        //     // ignore: use_build_context_synchronously
-                        //     // var response = await transferToken(context);
-                        //     EthereumAddress toAddress =
-                        //         EthereumAddress.fromHex(testAddress);
-                        //     var response =
-                        //         await query('balanceOf', [toAddress]);
-                        //     print('++++++++CELT Balance: $response');
-                        //     setState(() async  {
-                        //       maticAmount = etherBalance
-                        //           .getValueInUnit(EtherUnit.ether)
-                        //           .toString();
-                        //       celtAmount = response[0].toString();
-                        //       account = walletAccount;
-                        //       print("celtAmount is $celtAmount");
-                        //       _dataController.setAmountFromwallet(celtAmount);
-                        //       await _dataController.initiateWebviewTransaction();
-                        //
-                        //     });
-                        //   });
-                        // });
-                      } else {} // disconnect},
-                    },
-                    child: Container(
-                      // height: 50,
-                      // width: 50,
-                      decoration: BoxDecoration(
-                        color: _currentIndexNotifier.value
-                            ? Colors.blue
-                            : Colors.red,
-                        shape: BoxShape.rectangle,
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 20),
-                      child: Center(
-                        child: Text(
-                          _currentIndexNotifier.value ? 'Connected' : 'Connect',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
+                            _dataController.connectToMetaMask();
+                            // MetaMaskServiceImp().connectWithMetamaskWallet(
+                            //   onSessionUpdate: (session) async  {
+                            //
+                            //     setState(() {
+                            //       print('session  data is ${session.data()}-+++++++++++++=');
+                            //     });
+                            //   },
+                            //   onDisplayUri: (uri) {
+                            //     setState(() {
+                            //       _url = uri;
+                            //       print("my Uri is $uri");
+                            //     });
+                            //     launchUrlString(uri,
+                            //         mode: LaunchMode.externalApplication);
+                            //   },
+                            // ).then((result) {
+                            //   result.fold((failure) {
+                            //     print('Failed to connect: $failure');
+                            //   }, (connectResponse) async {
+                            //     print('Updated session+++++++++ $connectResponse');
+                            //
+                            //
+                            //     print("connect response is " + connectResponse.session.toString());
+                            //
+                            //
+                            //     _sessionData = (await connectResponse.session) as SessionData?;
+                            //     var  walletAccount = await NamespaceUtils.getAccount(
+                            //
+                            //       _sessionData!
+                            //           .namespaces.values.first.accounts.first,
+                            //     );
+                            //     print('account ++++++++--------$walletAccount');
+                            //     web3client = Web3Client(
+                            //         'https://polygon-mumbai.infura.io/v3/d0f4119a707544e7b1fcbc93c9bf659e',
+                            //         Client());
+                            //     EthereumAddress address =
+                            //         EthereumAddress.fromHex(walletAccount);
+                            //     EtherAmount etherBalance =
+                            //         await web3client.getBalance(address);
+                            //
+                            //     token = web3client
+                            //         .getTransactionCount(address)
+                            //         .toString();
+                            //     print("my token is ${token}");
+                            //
+                            //     print(
+                            //         '+++===Matic balance at address: ${etherBalance.getValueInUnit(EtherUnit.ether)}');
+                            //     // ignore: use_build_context_synchronously
+                            //     // var response = await transferToken(context);
+                            //     EthereumAddress toAddress =
+                            //         EthereumAddress.fromHex(testAddress);
+                            //     var response =
+                            //         await query('balanceOf', [toAddress]);
+                            //     print('++++++++CELT Balance: $response');
+                            //     setState(() async  {
+                            //       maticAmount = etherBalance
+                            //           .getValueInUnit(EtherUnit.ether)
+                            //           .toString();
+                            //       celtAmount = response[0].toString();
+                            //       account = walletAccount;
+                            //       print("celtAmount is $celtAmount");
+                            //       _dataController.setAmountFromwallet(celtAmount);
+                            //       await _dataController.initiateWebviewTransaction();
+                            //
+                            //     });
+                            //   });
+                            // });
+                          } else {} // disconnect},
+                        },
+                        child: Container(
+                          // height: 50,
+                          // width: 50,
+                          decoration: BoxDecoration(
+                            color: _currentIndexNotifier.value
+                                ? Colors.blue
+                                : Colors.red,
+                            shape: BoxShape.rectangle,
+                          ),
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                          child: Center(
+                            child: Text(
+                              _currentIndexNotifier.value ? 'Connected' : 'Connect',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      GetBuilder<DataController>(
+                        builder: (cont) {
+                          return Text(
+                            'token: ${_currentIndexNotifier.value ? token : '----'}',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        }
+                      ),
+                      const SizedBox(width: 70),
+                      GetBuilder<DataController>(
+                        builder: (cont) {
+                          return Text(
+                            'matic:${_currentIndexNotifier.value ? cont.maticAmount : '----'}',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        }
+                      ),
+                    ],
                   ),
-                  Text(
-                    'token: ${_currentIndexNotifier.value ? celtAmount : '----'}',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                    TextButton(
+                      onPressed: () async {
+                        //Act when the button is pressed
+                        var response = await approve(context);
+                        print(response);
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                      ),
+                      child: const Text(
+                        'Approve',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 70),
-                  Text(
-                    'matic: ${_currentIndexNotifier.value ? maticAmount : '----'}',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    TextButton(
+                      onPressed: () async {
+                        //Act when the button is pressed
+                        var response = await transferToken(context);
+                        print(response);
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                      ),
+                      child: const Text(
+                        'Transfer',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  ),
+                    GetBuilder<DataController>(
+                        builder: (cont) {
+                          return Text("webview message is ${cont.AmountFromwallet}");
+                        }
+                    )
+                  ]),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      color: Colors.grey[200],
+                      padding: const EdgeInsets.all(20),
+                      child:
+                      WebViewWidget(
+                        controller: _currentIndexNotifier.value == true
+                            ? _dataController.controller
+                            : WebViewController.fromPlatformCreationParams(
+                          const PlatformWebViewControllerCreationParams(),
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
-              Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                TextButton(
-                  onPressed: () async {
-                    //Act when the button is pressed
-                    var response = await approve(context);
-                    print(response);
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                  ),
-                  child: const Text(
-                    'Approve',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    //Act when the button is pressed
-                    var response = await transferToken(context);
-                    print(response);
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                  ),
-                  child: const Text(
-                    'Transfer',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                GetBuilder<DataController>(
-                  builder: (cont) {
-                    return Text("webview message is ${cont.AmountFromwallet}");
-                  }
-                )
-              ]),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  color: Colors.grey[200],
-                  padding: const EdgeInsets.all(20),
-                  child:
-                  WebViewWidget(
-                    controller: _currentIndexNotifier.value == true
-                        ? _dataController.controller
-                        : WebViewController.fromPlatformCreationParams(
-                            const PlatformWebViewControllerCreationParams(),
-                          ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        );
-      },
-    ));
+            );
+          },
+        ));
   }
 
 // void _connectWithWallet(String deepLink) {
