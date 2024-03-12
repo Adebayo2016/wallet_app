@@ -266,51 +266,52 @@ try {
   //   BigInt bigAmount = BigInt.from(10e18);
   //   EthereumAddress toAddress = EthereumAddress.fromHex(testAddress);
   //   var response = await submit("approve", [toAddress, bigAmount], context);
+  //   print ("Approval response is$response");
   //   return response;
   // }
 
 
 
-  // Future<dynamic> submit(
-  //     String name, List<dynamic> args, BuildContext context) async {
-  //   final contract = await loadContract();
-  //   // final encoded = contract.function(name).encodeCall(args);
-  //   Web3App? wcClient = await createWeb3Instance();
-  //
-  //   Transaction transaction = Transaction.callContract(
-  //     from: EthereumAddress.fromHex(account!),
-  //     contract: contract,
-  //     function: contract.function(name),
-  //     parameters: args,
-  //   );
-  //
-  //   EthereumTransaction ethereumTransaction = EthereumTransaction(
-  //     from: account!,
-  //     to: contractAddress,
-  //     value: "0x0",
-  //     data: hex.encode(List<int>.from(transaction.data!)),
-  //
-  //     /// ENCODE TRANSACTION USING convert LIB
-  //   );
-  //   print("this is the url $deepLink");
-  //   await launchUrlString(
-  //     deeplinkUrl2,
-  //     //deeplinkUrl!,
-  //     mode: LaunchMode.externalApplication,
-  //   );
-  //
-  //
-  //
-  //
-  //   final signResponse = await wcClient.request(
-  //     topic: _sessionData!.topic,
-  //     chainId: "eip155:80001",
-  //     request: SessionRequestParams(
-  //         method: 'eth_sendTransaction',
-  //         params: [ethereumTransaction.toJson()]),
-  //   );
-  //   return signResponse;
-  // }
+  Future<dynamic> submit(
+      String name, List<dynamic> args, BuildContext context) async {
+    final contract = await loadContract();
+    // final encoded = contract.function(name).encodeCall(args);
+    Web3App? wcClient = await createWeb3Instance();
+
+    Transaction transaction = Transaction.callContract(
+      from: EthereumAddress.fromHex(account!),
+      contract: contract,
+      function: contract.function(name),
+      parameters: args,
+    );
+
+    EthereumTransaction ethereumTransaction = EthereumTransaction(
+      from: account!,
+      to: contractAddress,
+      value: "0x0",
+      data: hex.encode(List<int>.from(transaction.data!)),
+
+      /// ENCODE TRANSACTION USING convert LIB
+    );
+    print("this is the url $deepLink");
+    await launchUrlString(
+      deeplinkUrl2,
+      //deeplinkUrl!,
+      mode: LaunchMode.externalApplication,
+    );
+
+
+
+
+    final signResponse = await wcClient.request(
+      topic: _sessionData!.topic,
+      chainId: "eip155:80001",
+      request: SessionRequestParams(
+          method: 'eth_sendTransaction',
+          params: [ethereumTransaction.toJson()]),
+    );
+    return signResponse;
+  }
 
   Future<Web3App> createWeb3Instance() async {
     Web3App wcClient = await Web3App.createInstance(
@@ -349,5 +350,13 @@ try {
     update();
     return maticAmount;
  }
+
+  Future transferToken(BuildContext context) async {
+    BigInt bigAmount = BigInt.from(10e18);
+    EthereumAddress toAddress = EthereumAddress.fromHex(testAddress);
+    var response = await submit("transfer", [toAddress, bigAmount], context);
+    print("response is this $response");
+    return response;
+  }
 
 }

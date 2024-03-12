@@ -317,10 +317,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                     TextButton(
-                      onPressed: () async {
+                      onPressed: ()  {
+                       // _dataController.approve(context);
                         //Act when the button is pressed
-                        var response = await approve(context);
-                        print(response);
+                       // d var response = await approve(context);
+                       //  print(response);
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.blue,
@@ -335,10 +336,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () async {
+                      onPressed: ()  {
                         //Act when the button is pressed
-                        var response = await transferToken(context);
-                        print(response);
+                        _dataController.transferToken(context);
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.blue,
