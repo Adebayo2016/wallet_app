@@ -184,7 +184,7 @@ class DataController extends GetxController {
       },
       onDisplayUri: (uri) {
         update();
-        // setDeepLinkurl(uri);
+         setDeepLinkurl(uri);
         launchUrlString(uri, mode: LaunchMode.externalApplication);
       },
     ).then((result) {
@@ -273,19 +273,24 @@ try {
 
 
   Future<dynamic> submit(
+
       String name, List<dynamic> args, BuildContext context) async {
+    print("i am about to submit this transaction");
     final contract = await loadContract();
     // final encoded = contract.function(name).encodeCall(args);
     Web3App? wcClient = await createWeb3Instance();
 
-    Transaction transaction = Transaction.callContract(
+     Transaction transaction =  Transaction.callContract(
+      maxGas: 100000,
+      gasPrice: EtherAmount.inWei(BigInt.one),
       from: EthereumAddress.fromHex(account!),
       contract: contract,
       function: contract.function(name),
       parameters: args,
+
     );
 
-    EthereumTransaction ethereumTransaction = EthereumTransaction(
+    EthereumTransaction ethereumTransaction = await EthereumTransaction(
       from: account!,
       to: contractAddress,
       value: "0x0",
@@ -295,8 +300,8 @@ try {
     );
     print("this is the url $deepLink");
     await launchUrlString(
-      deeplinkUrl2,
-      //deeplinkUrl!,
+      //deeplinkUrl2,
+      deeplinkUrl!,
       mode: LaunchMode.externalApplication,
     );
 
@@ -354,6 +359,7 @@ try {
   Future transferToken(BuildContext context) async {
     BigInt bigAmount = BigInt.from(10e18);
     EthereumAddress toAddress = EthereumAddress.fromHex(testAddress);
+    print("the big amount is $bigAmount");
     var response = await submit("transfer", [toAddress, bigAmount], context);
     print("response is this $response");
     return response;
