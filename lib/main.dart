@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'views/home_screen/home.dart';
 
-void main() {
+void main()  async {
+
+  await SentryFlutter.init(
+        (options) {
+      options.dsn = 'https://a21ebd544f0aca4a50fdc98f1081de4d@o4505990806962176.ingest.sentry.io/4505990809976832';
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(MyApp()),
+  );
   runApp(const MyApp());
 }
 

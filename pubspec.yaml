@@ -42,6 +42,7 @@ dependencies:
   dartz: ^0.10.1
   http: ^1.2.0
   webview_flutter: ^4.4.1
+  sentry_flutter: ^7.12.0
   walletconnect_flutter_v2: ^2.2.1
   permission_handler: ^10.4.3
   web3dart: ^2.7.2
