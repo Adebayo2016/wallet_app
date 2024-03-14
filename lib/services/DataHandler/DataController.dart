@@ -280,7 +280,7 @@ try {
     // final encoded = contract.function(name).encodeCall(args);
     Web3App? wcClient = await createWeb3Instance();
 
-     Transaction transaction =  Transaction.callContract(
+     Transaction transaction = await   Transaction.callContract(
       maxGas: 100000,
       gasPrice: EtherAmount.inWei(BigInt.one),
       from: EthereumAddress.fromHex(account!),
